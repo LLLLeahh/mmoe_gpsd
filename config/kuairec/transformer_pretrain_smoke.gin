@@ -1,0 +1,24 @@
+# Tiny smoke test (uses data/processed/_smoke_pretrain.npz)
+
+train.epoch = 1
+train.batch_size = 256
+train.data_path = "data/processed/_smoke_pretrain.npz"
+train.eval_data_path = None
+train.ckpt_root_dir = "./output/kuairec/"
+train.ckpt_name = "smoke_tf"
+train.learning_rate = 0.001
+train.load_ckpt = None
+train.load_params = ".*"
+train.frozen_params = None
+train.model_cls = @Transformer
+train.random_seed = 42
+train.processed_dir = "data/processed/"
+
+ModelArgs.dim = 64
+ModelArgs.n_layers = 2
+ModelArgs.n_heads = 4
+ModelArgs.max_seq_len = 200
+ModelArgs.dropout = 0.0
+ModelArgs.rank_loss_weight = 0.0
+ModelArgs.item_ar_loss_weight = 1.0
+ModelArgs.cate_ar_loss_weight = 1.0

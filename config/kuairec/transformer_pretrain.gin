@@ -1,0 +1,26 @@
+# GPSD-style generative pretraining (KuaiRec sequences).
+# Run from project root:  set PYTHONPATH=src  &&  python src/train.py --config config/kuairec/transformer_pretrain.gin
+# Requires:  python data/build_kuairec_sequences.py
+
+train.epoch = 5
+train.batch_size = 256
+train.data_path = "data/processed/pretrain_sequences.npz"
+train.eval_data_path = None
+train.ckpt_root_dir = "./output/kuairec/"
+train.ckpt_name = "transformer_pretrain"
+train.learning_rate = 0.001
+train.load_ckpt = None
+train.load_params = ".*"
+train.frozen_params = None
+train.model_cls = @Transformer
+train.random_seed = 42
+train.processed_dir = "data/processed/"
+
+ModelArgs.dim = 64
+ModelArgs.n_layers = 4
+ModelArgs.n_heads = 4
+ModelArgs.max_seq_len = 200
+ModelArgs.dropout = 0.0
+ModelArgs.rank_loss_weight = 0.0
+ModelArgs.item_ar_loss_weight = 1.0
+ModelArgs.cate_ar_loss_weight = 1.0

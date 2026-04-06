@@ -1,0 +1,27 @@
+# STSF-style: load pretrained item_embeddings, freeze them, train MMoE towers.
+# Set ModelArgs.item_vocab_size to match pretrain_sequences.npz (see build script log) and pretrain checkpoint.
+# Run:  set PYTHONPATH=src  &&  python src/train.py --config config/kuairec/mmoe_stsf.gin
+
+train.epoch = 20
+train.batch_size = 256
+train.data_path = None
+train.eval_data_path = None
+train.ckpt_root_dir = "./output/kuairec/"
+train.ckpt_name = "mmoe_stsf"
+train.learning_rate = 0.001
+train.load_ckpt = "./output/kuairec/transformer_pretrain/weights_final.weights.h5"
+train.load_params = ".*item_embeddings.*"
+train.frozen_params = ".*item_embeddings.*"
+train.model_cls = @MMoEBaselineModel
+train.random_seed = 42
+train.processed_dir = "data/processed/"
+train.mmoe_use_feature_config = True
+train.early_stopping_patience = 5
+
+# MUST match vocabulary from pretraining (item_vocab_size in npz / Transformer)
+ModelArgs.item_vocab_size = 10000
+ModelArgs.pretrained_embedding_dim = 64
+ModelArgs.num_dense_features = 10
+ModelArgs.mmoe_units = 64
+ModelArgs.num_experts = 8
+ModelArgs.tower_units = 64

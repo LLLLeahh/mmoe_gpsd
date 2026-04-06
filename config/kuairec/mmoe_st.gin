@@ -1,0 +1,23 @@
+# Load pretrained item_embeddings, finetune all (no freeze). Set item_vocab_size to match pretrain.
+# train.load_ckpt = "./output/kuairec/transformer_pretrain/weights_final.weights.h5"
+
+train.epoch = 20
+train.batch_size = 256
+train.ckpt_root_dir = "./output/kuairec/"
+train.ckpt_name = "mmoe_ft"
+train.learning_rate = 0.001
+train.load_ckpt = "./output/kuairec/transformer_pretrain/weights_final.weights.h5"
+train.load_params = ".*item_embeddings.*"
+train.frozen_params = None
+train.model_cls = @MMoEBaselineModel
+train.random_seed = 42
+train.processed_dir = "data/processed/"
+train.mmoe_use_feature_config = True
+train.early_stopping_patience = 5
+
+ModelArgs.item_vocab_size = 10000
+ModelArgs.pretrained_embedding_dim = 64
+ModelArgs.num_dense_features = 10
+ModelArgs.mmoe_units = 64
+ModelArgs.num_experts = 8
+ModelArgs.tower_units = 64
