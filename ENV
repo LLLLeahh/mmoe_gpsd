@@ -1,0 +1,37 @@
+# 环境信息（非 pip）
+
+`requirements.txt` 仅放可装的 PyPI 包；本文件记录系统/CUDA 等无法被 pip 解析的依赖。
+
+## 推荐运行环境
+
+| 项目 | 版本 |
+|---|---|
+| 平台 | autodl |
+| 操作系统 | Ubuntu 22.04.1 |
+| GPU | NVIDIA RTX 3090 |
+| CUDA | 11.8.89 |
+| cuDNN | 8.6.0 |
+| Python | 3.10.8 |
+
+## 安装步骤
+
+```bash
+# 1. 系统侧准备好对应 CUDA + cuDNN（autodl 镜像通常已装）
+# 2. 创建虚拟环境
+python3.10 -m venv .venv
+source .venv/bin/activate    # Linux / autodl
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+
+# 3. 安装依赖
+pip install -U pip
+pip install -r requirements.txt
+
+# 4. (开发模式) 把 src 暴露成可 import 的包
+pip install -e .
+```
+
+安装后即可 `python -m src.train --config config/kuairec/...gin`，无需手动设置 `PYTHONPATH=src`。
+
+## Keras 注意
+
+`tensorflow==2.13.0` 自带 `tf.keras`；本项目代码统一从 `tensorflow.keras` import，**不**依赖独立的 `keras` PyPI 包。
