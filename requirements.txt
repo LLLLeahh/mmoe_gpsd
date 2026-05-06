@@ -1,11 +1,8 @@
-autodl
-Linux-Ubuntu==22.04.1，RTX3090
-CUDA==11.8.89
-CUDNN==8.6.0
-python==3.10.8
 tensorflow==2.13.0
-NumPy==1.24.3
-Pandas==2.0.3
-Scikit-learn==1.2.2
+numpy==1.24.3
+pandas==2.0.3
+scikit-learn==1.2.2
 gin-config>=0.5.0
-Keras allows to tf
+pyarrow>=14
+h5py>=3
+matplotlib
