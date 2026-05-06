@@ -1,6 +1,7 @@
 # kuairec_mmoe
 
 使用KuaiRec 公开数据集，基于GPSD实现MMOE多目标预估
+
 **因果 Transformer 序列预训练** + **MMoE 多任务判别式排序**（CTR + `watch_ratio`），支持从预训练 checkpoint **按层名选择性加载并冻结 `item_embeddings`**（ST&SF 思路）。
 
 实现栈：**TensorFlow 2.13 / Keras**，**gin-config** 管理超参。
