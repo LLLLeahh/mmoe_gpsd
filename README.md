@@ -1,10 +1,68 @@
-# kuairec_mmoe
+# kuairec_mmoe_gpsd
 
 使用KuaiRec 公开数据集，基于GPSD实现MMOE多目标预估
 
 **因果 Transformer 序列预训练** + **MMoE 多任务判别式排序**（CTR + `watch_ratio`），支持从预训练 checkpoint **按层名选择性加载并冻结 `item_embeddings`**（ST&SF 思路）。
 
 实现栈：**TensorFlow 2.13 / Keras**，**gin-config** 管理超参。
+
+## 流程图
+
+```mermaid
+flowchart LR
+  subgraph L0["原始数据"]
+    direction TB
+    B[big_matrix.csv]
+    S[small_matrix.csv]
+    F[item_feat.csv]
+  end
+
+  subgraph L1["预处理"]
+    direction TB
+    DP[data_preprocessing.py]
+    PQ[(Parquet 与<br/>feature_config 等)]
+  end
+
+  subgraph L2["序列"]
+    direction TB
+    BS[build_kuairec_sequences.py]
+    NPZ[(pretrain_sequences.npz)]
+  end
+
+  subgraph L3["预训练"]
+    direction TB
+    PT[train.py<br/>transformer_pretrain.gin]
+    W[(weights_final.weights.h5)]
+  end
+
+  subgraph L4["精排 MMoE"]
+    direction TB
+    BL[train.py<br/>mmoe_baseline.gin]
+    ST[train.py<br/>mmoe_stsf.gin]
+  end
+
+  B --> DP
+  S --> DP
+  F --> DP
+  DP --> PQ
+  PQ --> BS
+  BS --> NPZ
+  NPZ --> PT
+  PT --> W
+  PQ --> BL
+  PQ --> ST
+  W --> ST
+
+  classDef f fill:#f8fafc,stroke:#94a3b8,color:#334155
+  classDef p fill:#eff6ff,stroke:#2563eb,color:#0f172a
+  classDef a fill:#f0fdf4,stroke:#16a34a,color:#14532d
+  classDef w fill:#fffbeb,stroke:#d97706,color:#78350f
+
+  class B,S,F f
+  class DP,BS,PT,BL,ST p
+  class PQ,NPZ a
+  class W w
+```
 
 ## 功能概览
 
